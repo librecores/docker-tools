@@ -63,4 +63,4 @@ RUN make
 RUN make install
 
 WORKDIR $HOME
-ENTRYPOINT ["fusesoc"]
+# ENTRYPOINT ["fusesoc"]
