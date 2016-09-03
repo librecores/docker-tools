@@ -62,5 +62,7 @@ RUN ./configure
 RUN make
 RUN make install
 
+# Allow accessing FuseSoC cache to all users
+RUN chmod 777 /fusesoc/.cache
+
 WORKDIR $HOME
-# ENTRYPOINT ["fusesoc"]
