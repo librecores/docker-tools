@@ -21,10 +21,10 @@ Bundles FuseSoC, [Icarus Verilog](http://iverilog.icarus.com/) and Quartus II We
  Both available images wrap FuseSoC, hence you can just invoke commands similarly to common CLIs.
  
  ```
- docker run onenashev/fusesoc-icarus-quartus fusesoc list-cores
+ docker run onenashev/fusesoc-icarus fusesoc list-cores
  ```
  
  ```
- docker run onenashev/fusesoc-icarus-quartus fusesoc sim wb_sdram_ctrl
+ docker run onenashev/fusesoc-icarus fusesoc sim wb_sdram_ctrl
  ```
  
