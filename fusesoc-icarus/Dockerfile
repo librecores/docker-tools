@@ -24,25 +24,18 @@ FROM ubuntu:16.04
 MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
 LABEL Description="The image offers FuseSoC and Icarus Verilog" Vendor="Oleg Nenashev" Version="0.1"
 
+USER root
+
 # Parameters
 ARG ZLIB_VERSION=1.2.8
 ARG ICARUS_VERILOG_VERSION=10_1
 ARG FUSESOC_VERSION=1.5
-
-ENV HOME /fusesoc
 
 RUN apt-get update
 RUN apt-get install -y python2.7-dev libyaml-dev libyaml-dev
 RUN apt-get install -y python-pip
 RUN apt-get install -y python-yaml
 RUN apt-get install -y git
-
-# Install FuseSoC
-RUN pip install fusesoc==${FUSESOC_VERSION}
-RUN fusesoc init -y
-RUN fusesoc list-systems
-RUN fusesoc list-cores
-RUN fusesoc update
 
 # Install ZLIB for Icarus
 RUN apt-get install -y wget
@@ -62,7 +55,31 @@ RUN ./configure
 RUN make
 RUN make install
 
-# Allow accessing FuseSoC cache to all users
-RUN chmod 777 /fusesoc/.cache
+# Install FuseSoC
+ENV FUSESOC_VERSION=${FUSESOC_VERSION}
 
-WORKDIR $HOME
+WORKDIR /var/lib/fusesoc
+RUN git clone https://github.com/olofk/fusesoc.git
+RUN mv /var/lib/fusesoc/fusesoc /var/lib/fusesoc/repo
+WORKDIR /var/lib/fusesoc/repo
+RUN git checkout ${FUSESOC_VERSION}
+
+#For the local run: COPY fusesoc /var/lib/fusesoc
+
+# Install FuseSoC 
+RUN python setup.py install
+
+# Prepare run home
+RUN mkdir /fusesoc
+RUN chmod -R 777 /fusesoc
+ENV HOME /fusesoc
+#TODO: Allow specifying a configurable log destination
+#ENV FUSESOC_LOG /fusesoc/fusesoc.log
+RUN touch /var/lib/fusesoc/repo/fusesoc.log
+RUN chmod 777 /var/lib/fusesoc/repo/fusesoc.log
+COPY fusesoc.conf /etc/fusesoc/fusesoc.conf
+
+# Initialization will be done for the user on startup
+COPY fusesoc-entrypoint.sh /usr/local/bin/fusesoc-entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/fusesoc-entrypoint.sh"]
+CMD ["fusesoc"]
