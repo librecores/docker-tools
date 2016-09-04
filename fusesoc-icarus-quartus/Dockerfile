@@ -20,16 +20,16 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #  THE SOFTWARE.
 
-FROM ubuntu:16.04
+FROM cdsteinkuehler/jessie-quartus-15.1.2:latest
 MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
-LABEL Description="The image offers FuseSoC and Icarus Verilog" Vendor="Oleg Nenashev" Version="0.1"
-
-USER root
+LABEL Description="The image offers FuseSoC, Icarus Verilog and Quartus 15.1.2" Vendor="Oleg Nenashev" Version="0.1"
 
 # Parameters
 ARG ZLIB_VERSION=1.2.8
 ARG ICARUS_VERILOG_VERSION=10_1
 ARG FUSESOC_VERSION=1.5
+
+USER root
 
 RUN apt-get update
 RUN apt-get install -y python2.7-dev libyaml-dev libyaml-dev
@@ -38,7 +38,7 @@ RUN apt-get install -y python-yaml
 RUN apt-get install -y git
 
 # Install ZLIB for Icarus
-RUN apt-get install -y wget
+RUN apt-get install -y wget build-essential
 WORKDIR /zlib
 RUN wget http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz && tar zxf zlib-${ZLIB_VERSION}.tar.gz
 WORKDIR /zlib/zlib-${ZLIB_VERSION}
@@ -46,7 +46,7 @@ RUN ./configure && make
 RUN make install
 
 # Install Icarus Verilog
-RUN apt-get install -y libelf-dev autoconf gperf bison flex build-essential
+RUN apt-get install -y libelf-dev autoconf gperf bison flex 
 RUN git clone https://github.com/steveicarus/iverilog.git
 WORKDIR iverilog
 RUN git checkout v${ICARUS_VERILOG_VERSION}
@@ -55,8 +55,14 @@ RUN ./configure
 RUN make
 RUN make install
 
+#TODO: Fix Java
 # Install Java (required for using the image as Jenkins slave/agent)
-RUN apt-get install -y openjdk-8-jre
+# run apt-get install -y software-properties-common
+# RUN add-apt-repository ppa:openjdk-r/ppa
+# RUN apt-get update
+# RUN apt-get install -y openjdk-8-jre
+# RUN update-alternatives --config java
+# RUN update-alternatives --config javac
 
 # Install FuseSoC
 ENV FUSESOC_VERSION=${FUSESOC_VERSION}
@@ -80,6 +86,18 @@ ENV HOME /fusesoc
 RUN touch /var/lib/fusesoc/repo/fusesoc.log
 RUN chmod 777 /var/lib/fusesoc/repo/fusesoc.log
 COPY fusesoc.conf /etc/fusesoc/fusesoc.conf
+
+# Install Cyclone IV packages (they are kept wihout "iv" suffix for this release)
+#ADD http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/cyclone-15.1.0.185.qdz /tmp/
+#ADD http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/QuartusLiteSetup-15.1.0.185-linux.run /tmp/
+# Fix file permissions
+#RUN cd /tmp/ && \
+#    chmod +x *.run && \
+#    chmod +r *
+#USER builder
+#RUN cd /tmp/ && \
+#    ./QuartusLiteSetup-15.1.0.185-linux.run --mode unattended
+#USER root
 
 # Initialization will be done for the user on startup
 COPY fusesoc-entrypoint.sh /usr/local/bin/fusesoc-entrypoint.sh
