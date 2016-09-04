@@ -55,6 +55,9 @@ RUN ./configure
 RUN make
 RUN make install
 
+# Install Java (required for using the image as Jenkins slave/agent)
+RUN apt-get install -y openjdk-8-jre
+
 # Install FuseSoC
 ENV FUSESOC_VERSION=${FUSESOC_VERSION}
 
