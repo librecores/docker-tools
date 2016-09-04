@@ -81,6 +81,9 @@ RUN touch /var/lib/fusesoc/repo/fusesoc.log
 RUN chmod 777 /var/lib/fusesoc/repo/fusesoc.log
 COPY fusesoc.conf /etc/fusesoc/fusesoc.conf
 
+#Install SVN
+RUN apt-get install -y subversion
+
 # Initialization will be done for the user on startup
 COPY fusesoc-entrypoint.sh /usr/local/bin/fusesoc-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/fusesoc-entrypoint.sh"]

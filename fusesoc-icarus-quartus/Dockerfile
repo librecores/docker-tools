@@ -99,6 +99,9 @@ COPY fusesoc.conf /etc/fusesoc/fusesoc.conf
 #    ./QuartusLiteSetup-15.1.0.185-linux.run --mode unattended
 #USER root
 
+#Install SVN
+RUN apt-get install -y subversion
+
 # Initialization will be done for the user on startup
 COPY fusesoc-entrypoint.sh /usr/local/bin/fusesoc-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/fusesoc-entrypoint.sh"]
