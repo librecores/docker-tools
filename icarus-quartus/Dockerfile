@@ -61,6 +61,6 @@ RUN make install
 
 
 # Initialization will be done for the user on startup
-COPY fusesoc-entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["pwd"]
