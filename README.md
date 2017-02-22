@@ -64,6 +64,16 @@ Tags:
 
 ### EDA tools
 
+#### Cocotb
+
+Docker name: `tools-cocotb`
+
+Tags:
+
+| Name | Description | Path |
+| ---- | ----------- | ---- |
+| `v1.0-569-g5d6aee2`, `latest` | snapshot on Jan 28, 2017 | `eda/cocotb/v1.0-569-g5d6aee2` |
+
 #### FuseSoC
 
 Docker name: `tools-fusesoc`
@@ -72,7 +82,7 @@ Tags:
 
 | Name | Description | Path |
 | ---- | ----------- | ---- |
-| `1.6`, `latest` | 1.6 release | `eda/fusesoc/1.6/`
+| `1.6`, `latest` | 1.6 release | `eda/fusesoc/1.6/` |
 
 ### Cross compilers
 
