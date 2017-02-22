@@ -37,19 +37,31 @@ jobs can be set:
 
 ## Available tools
 
+### EDA tools
+
+#### FuseSoC
+
+Docker name: `tools-fusesoc`
+
+Tags:
+
+| Name | Description | Path |
+| ---- | ----------- | ---- |
+| `1.6`, `latest` | 1.6 release | `compilers/eda/fusesoc/1.6/`
+
 ### Cross compilers
 
-#### `tools-riscv-gcc` 
+#### RISC-V GCC crosscompiler
 
-RISC-V GCC crosscompiler
+Docker name: `tools-riscv-gcc` 
 
-##### Tags
+Tags:
 
 | Name | Description | Path |
 | ---- | ----------- | ---- |
 | `20170209`, `latest` | Snapshot from Feb 9, 2017 | `compilers/riscv/20170209-ff21e26/`
 
-##### Parameters
+Parameters:
 
 | Name | Description | Default |
 | ---- | ----------- | ------- |
