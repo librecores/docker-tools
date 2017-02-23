@@ -3,11 +3,10 @@
 FULL_VERSION=`git describe --tags`
 
 mkdir -p /tools/eda/cocotb
-cp -r /tmp/cocotb /tools/eda/cocotb/${FULL_VERSION}
+cp -r /tmp/cocotb ${COCOTB_BASE}/${FULL_VERSION}
 
-mkdir -p /tools/Modules/modulefiles/eda/cocotb/
-rm -f /tools/Modules/modulefiles/eda/cocotb/${FULL_VERSION}
-cat <<EOF >> /tools/Modules/modulefiles/eda/cocotb/${FULL_VERSION}
+mkdir -p ${COCOTB_MODULEFILES}
+cat <<EOF > ${COCOTB_MODULEFILES}/${FULL_VERSION}
 #%Module
-setenv COCOTB /tools/eda/cocotb/${FULL_VERSION}
+setenv COCOTB ${COCOTB_BASE}/${FULL_VERSION}
 EOF

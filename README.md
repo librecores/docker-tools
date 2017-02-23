@@ -37,13 +37,13 @@ example the build jobs can be set:
 ## Environment Modules
 
 We use [Environment Modules](http://modules.sourceforge.net/) to
-manage the environment with multiple concurrent versions of tools.
+manage the environment with multiple concurrent versions of tools. In
+the CI environment the following environment variable makes the
+modules available:
 
-Once compiled and installed you need to source the init script for it:
+   MODULEPATH=/tools/modulefiles
 
-    source /tools/Modules/3.2.10/init/bash
-
-After that you can load the environment for each of the tools, e.g.:
+With that you can load the environment for each of the tools, e.g.:
 
     module load eda/fusesoc/1.6
 
@@ -52,21 +52,11 @@ sets the environment by prepending the correct folders to `PATH` and
 
 ## Available tools
 
-#### Environment Modules
-
-Docker name: `tools-modules`
-
-Tags:
-
-| Name | Description | Path |
-| ---- | ----------- | ---- |
-| `3.2.10`, `latest` | 3.2.10 release | `Modules/3.2.10` |
-
 ### EDA tools
 
 #### Cocotb
 
-Docker name: `tools-cocotb`
+Docker name: `toolsbuild-cocotb`
 
 Tags:
 
@@ -76,7 +66,7 @@ Tags:
 
 #### FuseSoC
 
-Docker name: `tools-fusesoc`
+Docker name: `toolsbuild-fusesoc`
 
 Tags:
 
@@ -88,7 +78,7 @@ Tags:
 
 #### RISC-V GCC crosscompiler
 
-Docker name: `tools-riscv-gcc` 
+Docker name: `toolsbuild-riscv-gcc` 
 
 Tags:
 

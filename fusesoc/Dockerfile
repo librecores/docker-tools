@@ -20,28 +20,20 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #  THE SOFTWARE.
 
-FROM ubuntu:16.04
-LABEL maintaine="stefan@wallentowitz.de"
-LABEL description="FuseSoC"
-LABEL vendor="LibreCores"
-
-USER root
+FROM librecores/toolsbuild-base:latest
+LABEL Maintainer  Stefan Wallentowitz <stefan@wallentowitz.de>
+LABEL Description "FuseSoC"
 
 ARG VERSION=1.6
 
-VOLUME /tools
-
-RUN apt-get update
-RUN apt-get install -y python git wget
-
 WORKDIR /tmp
-RUN wget https://bootstrap.pypa.io/get-pip.py
-RUN python get-pip.py
 RUN git clone https://github.com/olofk/fusesoc
 WORKDIR fusesoc
 RUN git checkout ${VERSION}
 
 ENV VERSION=${VERSION}
+ENV FUSESOC_BASE=/tools/eda/fusesoc
+ENV FUSESOC_MODULEFILES=/tools/modulefiles/eda/fusesoc
 
 COPY install.sh /tmp/fusesoc
 

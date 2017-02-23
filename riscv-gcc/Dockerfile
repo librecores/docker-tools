@@ -20,20 +20,13 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #  THE SOFTWARE.
 
-FROM ubuntu:16.04
-LABEL maintaine="stefan@wallentowitz.de"
-LABEL description="RISC-V GCC crosscompiler"
-LABEL vendor="LibreCores"
-
-USER root
+FROM librecores/toolsbuild-base:latest
+LABEL Maintainer  Stefan Wallentowitz <stefan@wallentowitz.de>
+LABEL Description "RISC-V GCC crosscompiler"
 
 ARG VERSION=ff21e26
 ARG JOBS=-j8
 
-VOLUME /tools
-
-RUN apt-get update
-RUN apt-get install -y git
 RUN apt-get install -y autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev
 
 WORKDIR /tmp
@@ -43,6 +36,8 @@ RUN git checkout ${VERSION}
 
 ENV JOBS=${JOBS}
 ENV VERSION=${VERSION}
+ENV RISCV_BASE=/tools/compilers/riscv/gcc
+ENV RISCV_MODULEFILES=/tools/modulefiles/compilers/riscv/gcc
 
 COPY build.sh /tmp/riscv-gnu-toolchain
 

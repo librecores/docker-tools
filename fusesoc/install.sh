@@ -1,10 +1,10 @@
 #!/bin/bash -e
 
-pip install -U --prefix /tools/eda/fusesoc/${VERSION} .
-mkdir -p /tools/Modules/modulefiles/eda/fusesoc/
-rm -f /tools/Modules/modulefiles/eda/fusesoc/${VERSION}
-cat <<EOF >> /tools/Modules/modulefiles/eda/fusesoc/${VERSION}
+pip install -U --prefix ${FUSESOC_BASE}/${VERSION} .
+
+mkdir -p ${FUSESOC_MODULEFILES}
+cat <<EOF > ${FUSESOC_MODULEFILES}/${VERSION}
 #%Module
-prepend-path PATH /tools/eda/fusesoc/${VERSION}/bin
-prepend-path PYTHONPATH /tools/eda/fusesoc/${VERSION}
+prepend-path PATH ${FUSESOC_BASE}/${VERSION}/bin
+prepend-path PYTHONPATH ${FUSESOC_BASE}/${VERSION}
 EOF

@@ -20,19 +20,11 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #  THE SOFTWARE.
 
-FROM ubuntu:16.04
-LABEL maintaine="stefan@wallentowitz.de"
-LABEL description="cocotb"
-LABEL vendor="LibreCores"
-
-USER root
+FROM librecores/toolsbuild-base:latest
+LABEL maintainer  Stefan Wallentowitz <stefan@wallentowitz.de>
+LABEL description "cocotb"
 
 ARG VERSION=5d6aee2
-
-VOLUME /tools
-
-RUN apt-get update
-RUN apt-get install -y git
 
 WORKDIR /tmp
 RUN git clone https://github.com/potentialventures/cocotb
@@ -40,6 +32,8 @@ WORKDIR cocotb
 RUN git checkout ${VERSION}
 
 ENV VERSION=${VERSION}
+ENV COCOTB_BASE=/tools/eda/cocotb
+ENV COCOTB_MODULEFILES=/tools/modulefiles/eda/cocotb
 
 COPY install.sh /tmp/
 
