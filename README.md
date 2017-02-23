@@ -74,6 +74,16 @@ Tags:
 | ---- | ----------- | ---- |
 | `1.6`, `latest` | 1.6 release | `eda/fusesoc/1.6/` |
 
+#### Icarus Verilog
+
+Docker name: `toolsbuild-icarus-verilog`
+
+Tags:
+
+| Name | Description | Default |
+| ---- | ----------- | ------- |
+| `v10_1`, `latest` | 10.1 release | `eda/icarus-verilog/v10_1` |
+
 ### Cross compilers
 
 #### RISC-V GCC crosscompiler
