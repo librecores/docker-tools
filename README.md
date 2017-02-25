@@ -1,30 +1,109 @@
-FuseSoC Dockerfiles
-====
+# LibreCores Tools Docker Images
 
-This repository contains several packages for various kinds of automation with [FuseSoC](https://github.com/olofk/fusesoc).
+This repository contains the information about tools that are
+installed in the LibreCores CI environment. Beside the tool
+information we provide the files to reproduce the build or
+installation of tools using [docker](http://docker.io).
 
-**Disclaimer:** All available images are available for evaluation and testing **only**.
-Location of this images may change along with migration to a GitHub organization.
+**Why set up your own tools environment?**
 
-## Available images
+Setting up your own tools environment using our docker images can be
+useful as a fast way of getting your environment set up. Beside that
+it can be useful to reproduce problems with your build in LibreCores
+CI.
 
-* [onenashev/fusesoc-icarus](https://hub.docker.com/r/onenashev/fusesoc-icarus/) - 
-Bundles FuseSoC and [Icarus Verilog](http://iverilog.icarus.com/)
- * Image can be used for basic simulations of projects listed in [orpsoc-cores](https://github.com/openrisc/orpsoc-cores)
-* [onenashev/fusesoc-icarus-quartus](https://hub.docker.com/r/onenashev/fusesoc-icarus-quartus/) - 
-Bundles FuseSoC, [Icarus Verilog](http://iverilog.icarus.com/) and Quartus II Web Edition 15.1.2
- * With this image it is possible to build systems based on Altera FPGAs ([list of available systems](https://github.com/openrisc/orpsoc-cores/tree/master/systems))
- 
- 
- ## Usage examples
- 
- Both available images wrap FuseSoC, hence you can just invoke commands similarly to common CLIs.
- 
- ```
- docker run onenashev/fusesoc-icarus fusesoc list-cores
- ```
- 
- ```
- docker run onenashev/fusesoc-icarus fusesoc sim wb_sdram_ctrl
- ```
- 
+## How to
+
+In the following we will briefly introduce to you how to setup your
+tools environment on a local path called `/tools`. The idea is
+basically that you run the docker images for the tools that you need
+to be installed. For example you would install FuseSoC using:
+
+    docker run librecores/tools-fusesoc -v /tools:/tools
+
+This will run the GCC build for the `latest` tag and map the host
+machine folder `/tools` to the docker folder `/tools`.
+
+You can select another tag, e.g.,
+
+    docker run librecores/fusesoc:1.6 -v /tools:/tools
+
+Finally, each tool can have extra parameters that you find with the
+tool information below. In the case of the RISC-V cross compiler for
+example the build jobs can be set:
+
+    docker run librecores/tools-riscv-gcc:20170209 -v /tools:/tools -e JOBS=-j16
+
+## Environment Modules
+
+We use [Environment Modules](http://modules.sourceforge.net/) to
+manage the environment with multiple concurrent versions of tools. In
+the CI environment the following environment variable makes the
+modules available:
+
+   MODULEPATH=/tools/modulefiles
+
+With that you can load the environment for each of the tools, e.g.:
+
+    module load eda/fusesoc/1.6
+
+sets the environment by prepending the correct folders to `PATH` and
+`PYTHONPATH`.
+
+## Available tools
+
+### EDA tools
+
+#### Cocotb
+
+Docker name: `toolsbuild-cocotb`
+
+Tags:
+
+| Name | Description | Path |
+| ---- | ----------- | ---- |
+| `v1.0-569-g5d6aee2`, `latest` | snapshot on Jan 28, 2017 | `eda/cocotb/v1.0-569-g5d6aee2` |
+
+#### FuseSoC
+
+Docker name: `toolsbuild-fusesoc`
+
+Tags:
+
+| Name | Description | Path |
+| ---- | ----------- | ---- |
+| `1.6`, `latest` | 1.6 release | `eda/fusesoc/1.6/` |
+
+#### Icarus Verilog
+
+Docker name: `toolsbuild-icarus-verilog`
+
+Tags:
+
+| Name | Description | Default |
+| ---- | ----------- | ------- |
+| `v10_1`, `latest` | 10.1 release | `eda/icarus-verilog/v10_1` |
+
+### Cross compilers
+
+#### RISC-V GCC crosscompiler
+
+Docker name: `toolsbuild-riscv-gcc` 
+
+Tags:
+
+| Name | Description | Path |
+| ---- | ----------- | ---- |
+| `20170209`, `latest` | Snapshot from Feb 9, 2017 | `compilers/riscv/20170209-ff21e26/`
+
+Parameters:
+
+| Name | Description | Default |
+| ---- | ----------- | ------- |
+| `JOBS` | Parallel build jobs | `-j8` |
+
+## Contribute
+
+If you want a tool installed in the environment, please create a pull
+request to this repository.
+
