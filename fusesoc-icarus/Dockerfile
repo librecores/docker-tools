@@ -29,7 +29,7 @@ USER root
 # Parameters
 ARG ZLIB_VERSION=1.2.8
 ARG ICARUS_VERILOG_VERSION=10_1
-ARG FUSESOC_VERSION=1.5
+ARG FUSESOC_VERSION=1.6
 
 RUN apt-get update
 RUN apt-get install -y python2.7-dev libyaml-dev libyaml-dev
