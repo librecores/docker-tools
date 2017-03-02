@@ -27,7 +27,7 @@ LABEL Description="The image offers FuseSoC and Icarus Verilog" Vendor="Oleg Nen
 USER root
 
 # Parameters
-ARG ZLIB_VERSION=1.2.8
+ARG ZLIB_VERSION=1.2.11
 ARG ICARUS_VERILOG_VERSION=10_1
 ARG FUSESOC_VERSION=1.6
 
