@@ -21,7 +21,7 @@
 #  THE SOFTWARE.
 
 FROM ubuntu:16.04
-MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
+LABEL MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
 LABEL Description="The image offers FuseSoC and Icarus Verilog" Vendor="Oleg Nenashev" Version="0.1"
 
 USER root
@@ -31,11 +31,8 @@ ARG ZLIB_VERSION=1.2.11
 ARG ICARUS_VERILOG_VERSION=10_1
 ARG FUSESOC_VERSION=1.6
 
-RUN apt-get update
-RUN apt-get install -y python2.7-dev libyaml-dev libyaml-dev
-RUN apt-get install -y python-pip
-RUN apt-get install -y python-yaml
-RUN apt-get install -y git
+RUN apt-get update && apt-get install -y \
+    python2.7-dev libyaml-dev libyaml-dev python-pip python-yaml git 
 
 # Install ZLIB for Icarus
 RUN apt-get install -y wget
