@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y \
 # Install Icarus Verilog
 RUN apt-get install -y git make autoconf g++ flex bison build-essential
 RUN git clone http://git.veripool.org/git/verilator
-WORKDIR verilator
+WORKDIR /verilator
 RUN git checkout verilator_${VERILATOR_VERSION}
 RUN autoconf
 RUN ./configure

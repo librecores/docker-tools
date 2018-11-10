@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y \
 # Install ZLIB for Icarus
 RUN apt-get install -y wget
 WORKDIR /zlib
-RUN wget http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz && tar zxf zlib-${ZLIB_VERSION}.tar.gz
+RUN wget http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz && tar zxf zlib-${ZLIB_VERSION}.tar.gz && rm zlib-${ZLIB_VERSION}.tar.gz
 WORKDIR /zlib/zlib-${ZLIB_VERSION}
 RUN ./configure && make
 RUN make install
@@ -45,7 +45,7 @@ RUN make install
 # Install Icarus Verilog
 RUN apt-get install -y libelf-dev autoconf gperf bison flex build-essential
 RUN git clone https://github.com/steveicarus/iverilog.git
-WORKDIR iverilog
+WORKDIR /iverilog
 RUN git checkout v${ICARUS_VERILOG_VERSION}
 RUN sh autoconf.sh
 RUN ./configure
