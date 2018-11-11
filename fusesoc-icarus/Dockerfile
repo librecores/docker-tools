@@ -32,7 +32,8 @@ ARG ICARUS_VERILOG_VERSION=10_1
 ARG FUSESOC_VERSION=1.6
 
 RUN apt-get update && apt-get install -y \
-    python2.7-dev libyaml-dev libyaml-dev python-pip python-yaml git 
+    python2.7-dev libyaml-dev libyaml-dev python-pip python-yaml git \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install ZLIB for Icarus
 RUN apt-get install -y wget

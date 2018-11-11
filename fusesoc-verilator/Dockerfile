@@ -31,7 +31,8 @@ ARG VERILATOR_VERSION=3_886
 ARG FUSESOC_VERSION=1.5
 
 RUN apt-get update && apt-get install -y \
-    python2.7-dev libyaml-dev libyaml-dev python-pip python-yaml git 
+    python2.7-dev libyaml-dev libyaml-dev python-pip python-yaml git \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Icarus Verilog
 RUN apt-get install -y git make autoconf g++ flex bison build-essential
