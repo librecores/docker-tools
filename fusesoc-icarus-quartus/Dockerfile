@@ -21,26 +21,24 @@
 #  THE SOFTWARE.
 
 FROM cdsteinkuehler/jessie-quartus-15.1.2:latest
-MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
+LABEL MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
 LABEL Description="The image offers FuseSoC, Icarus Verilog and Quartus 15.1.2" Vendor="Oleg Nenashev" Version="0.1"
 
 # Parameters
-ARG ZLIB_VERSION=1.2.8
+ARG ZLIB_VERSION=1.2.11
 ARG ICARUS_VERILOG_VERSION=10_1
 ARG FUSESOC_VERSION=1.5
 
 USER root
 
-RUN apt-get update
-RUN apt-get install -y python2.7-dev libyaml-dev libyaml-dev
-RUN apt-get install -y python-pip
-RUN apt-get install -y python-yaml
-RUN apt-get install -y git
+RUN apt-get update && apt-get install -y \
+    python2.7-dev libyaml-dev libyaml-dev python-pip python-yaml git \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install ZLIB for Icarus
 RUN apt-get install -y wget build-essential
 WORKDIR /zlib
-RUN wget http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz && tar zxf zlib-${ZLIB_VERSION}.tar.gz
+RUN wget http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz && tar zxf zlib-${ZLIB_VERSION}.tar.gz && rm zlib-${ZLIB_VERSION}.tar.gz
 WORKDIR /zlib/zlib-${ZLIB_VERSION}
 RUN ./configure && make
 RUN make install
@@ -48,7 +46,7 @@ RUN make install
 # Install Icarus Verilog
 RUN apt-get install -y libelf-dev autoconf gperf bison flex 
 RUN git clone https://github.com/steveicarus/iverilog.git
-WORKDIR iverilog
+WORKDIR /iverilog
 RUN git checkout v${ICARUS_VERILOG_VERSION}
 RUN sh autoconf.sh
 RUN ./configure
